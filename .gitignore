@@ -1,28 +1,30 @@
 # Dependencies
 vendor/
-composer.lock
-node_modules/
 
-# Sessions
-sessions/
-profiles/
-
-# Environment
+# Environment & Secrets
 .env
 .env.local
-.DS_Store
 
 # Logs
 *.log
 error.log
 
-# IDE
+# IDE & Editor
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# OS
-Thumbs.db
+# OS Files
 .DS_Store
+Thumbs.db
+
+# IDE specific
+.sublime-text
+*.iml
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
