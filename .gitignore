@@ -1,0 +1,28 @@
+# Dependencies
+vendor/
+composer.lock
+node_modules/
+
+# Sessions
+sessions/
+profiles/
+
+# Environment
+.env
+.env.local
+.DS_Store
+
+# Logs
+*.log
+error.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+.DS_Store

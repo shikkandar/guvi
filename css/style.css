@@ -1,0 +1,242 @@
+/* General Styles */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --light-bg: #f8f9fa;
+}
+
+body {
+    background-color: var(--light-bg);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Using only 2 fonts: Segoe UI and sans-serif fallback */
+h1, h2, h3, h4, h5, h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Forms */
+.form-control,
+.form-select {
+    border-radius: 8px;
+    border: 2px solid #dee2e6;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+}
+
+.form-control-lg {
+    border-radius: 8px;
+    border: 2px solid #dee2e6;
+    padding: 0.875rem 1.125rem;
+    font-size: 1rem;
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-control-lg:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.3rem rgba(0, 123, 255, 0.15);
+    outline: none;
+}
+
+.form-label {
+    color: #333;
+    margin-bottom: 0.6rem;
+    font-size: 0.95rem;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.05rem;
+}
+
+.btn-outline-light {
+    border: 2px solid white;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-light:hover {
+    background-color: white;
+    color: #333;
+}
+
+.btn-outline-primary {
+    border: 2px solid #007bff;
+    color: #007bff;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+
+/* Alerts */
+.alert {
+    border: none;
+    border-radius: 6px;
+    animation: slideDown 0.3s ease;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Container Padding */
+.container {
+    flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card {
+        margin: 0 10px;
+    }
+
+    .btn-lg {
+        font-size: 0.95rem;
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+/* Loading State */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Text Utilities */
+.text-muted {
+    color: var(--secondary-color);
+}
+
+.small-text {
+    font-size: 0.875rem;
+}
+
+/* Link Styles */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Card Headers */
+.card-header {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    border-bottom: none;
+}
+
+.card-header h2 {
+    font-size: 1.75rem;
+    letter-spacing: -0.5px;
+}
+
+/* Profile Page Specific */
+#profileInfo {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+/* Input Placeholders */
+.form-control::placeholder,
+.form-control-lg::placeholder {
+    color: #999;
+    opacity: 0.8;
+}
+
+/* Rounded Borders */
+.rounded-3 {
+    border-radius: 12px !important;
+}
+
+/* Better spacing */
+.card-body {
+    padding: 2rem;
+}
+
+/* SVG Icons */
+svg {
+    display: inline-block;
+}
