@@ -1,6 +1,6 @@
 /* General Styles */
 :root {
-    --primary-color: #007bff;
+    --primary-color: #0EBA4B;
     --secondary-color: #6c757d;
     --success-color: #28a745;
     --danger-color: #dc3545;
@@ -13,6 +13,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    padding-top: 70px;
 }
 
 /* Using only 2 fonts: Segoe UI and sans-serif fallback */
@@ -23,11 +24,56 @@ h1, h2, h3, h4, h5, h6 {
 /* Navbar */
 .navbar {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .navbar-brand {
     font-weight: 700;
     font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.nav-link {
+    color: #333 !important;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Navbar buttons styling */
+.navbar .btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.navbar .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.navbar .btn-primary:hover {
+    background-color: #0a8c3b;
+    border-color: #0a8c3b;
+}
+
+.navbar .btn-outline-primary {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.navbar .btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
 }
 
 /* Cards */
@@ -48,22 +94,22 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 8px;
     border: 2px solid #dee2e6;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    font-size: 1rem;
-    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
 }
 
 .form-control-lg {
     border-radius: 8px;
     border: 2px solid #dee2e6;
-    padding: 0.875rem 1.125rem;
-    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
 }
 
 .form-control:focus,
 .form-select:focus,
 .form-control-lg:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.3rem rgba(0, 123, 255, 0.15);
+    box-shadow: 0 0 0 0.3rem rgba(14, 186, 75, 0.15);
     outline: none;
 }
 
@@ -87,10 +133,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+    background-color: #0a8c3b;
+    border-color: #0a8c3b;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 4px 12px rgba(14, 186, 75, 0.3);
 }
 
 .btn-primary:active {
@@ -113,17 +159,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-outline-primary {
-    border: 2px solid #007bff;
-    color: #007bff;
+    border: 2px solid #0EBA4B;
+    color: #0EBA4B;
     transition: all 0.3s ease;
 }
 
 .btn-outline-primary:hover {
-    background-color: #007bff;
+    background-color: #0EBA4B;
     color: white;
-    border-color: #007bff;
+    border-color: #0EBA4B;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(14, 186, 75, 0.2);
 }
 
 /* Alerts */
@@ -199,13 +245,13 @@ a {
 }
 
 a:hover {
-    color: #0056b3;
+    color: #0a8c3b;
     text-decoration: underline;
 }
 
 /* Card Headers */
 .card-header {
-    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    background: linear-gradient(135deg, #0EBA4B 0%, #0a8c3b 100%);
     border-bottom: none;
 }
 

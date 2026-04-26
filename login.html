@@ -8,21 +8,15 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">GUVI</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="register.html">Register</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="login.html">Login</a>
-                    </li>
-                </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="index.html">
+                <img src="assets/guvi-icon.png" alt="GUVI" width="32" height="32" class="me-2">
+                GUVI
+            </a>
+            <div class="ms-auto d-flex gap-2">
+                <a href="login.html" class="btn btn-outline-primary">Login</a>
+                <a href="register.html" class="btn btn-primary">Sign up</a>
             </div>
         </div>
     </nav>
@@ -33,7 +27,6 @@
                 <div class="card shadow-lg border-0">
                     <div class="card-header bg-primary text-white py-4">
                         <h2 class="mb-0">
-                            <img src="assets/lock.svg" alt="Login" class="me-2" width="28" height="28">
                             Welcome Back
                         </h2>
                     </div>
@@ -55,7 +48,6 @@
                             </div>
 
                             <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
-                                <img src="assets/box-arrow.svg" alt="Login" class="me-2" width="18" height="18">
                                 Login
                             </button>
                         </form>
