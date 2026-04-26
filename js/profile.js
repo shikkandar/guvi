@@ -41,6 +41,13 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
+                if (xhr.status === 401) {
+                    localStorage.removeItem('sessionToken');
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('userName');
+                    window.location.href = 'login.html';
+                    return;
+                }
                 try {
                     const response = JSON.parse(xhr.responseText);
                     showAlert(response.message || 'An error occurred. Please try again.', 'danger');
@@ -124,6 +131,13 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
+                if (xhr.status === 401) {
+                    localStorage.removeItem('sessionToken');
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('userName');
+                    window.location.href = 'login.html';
+                    return;
+                }
                 try {
                     const response = JSON.parse(xhr.responseText);
                     console.error('Error loading profile:', response.message);

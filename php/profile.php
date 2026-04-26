@@ -56,15 +56,16 @@ function handleFetch($sessionData) {
         $userId = $sessionData['user_id'];
         $email = $sessionData['email'];
 
-        // MongoDB is required
-        $db = getMongoConnection();
-        if ($db === null) {
-            http_response_code(500);
-            die(json_encode(['success' => false, 'message' => 'MongoDB connection failed. Profile storage unavailable.']));
-        }
+        // Use MongoDB driver directly (no library)
+        $manager = new MongoDB\Driver\Manager(MONGO_URI);
+        $query = new MongoDB\Driver\Query(['email' => $email]);
+        $result = $manager->executeQuery(MONGO_DB . '.profiles', $query);
 
-        $profileCollection = $db->selectCollection('profiles');
-        $profile = $profileCollection->findOne(['email' => $email]);
+        $profile = null;
+        foreach ($result as $doc) {
+            $profile = (array)$doc;
+            break;
+        }
 
         if ($profile) {
             http_response_code(200);
@@ -120,35 +121,29 @@ function handleUpdate($postData, $sessionData) {
     }
 
     try {
+        // Use MongoDB driver directly (no library)
+        $manager = new MongoDB\Driver\Manager(MONGO_URI);
+
         // Prepare update data
-        $updateData = [
-            'user_id' => $userId,
-            'email' => $email,
-            'fullname' => $fullname,
-            'age' => $age,
-            'dob' => $dob,
-            'contact' => $contact,
-            'address' => $address,
-            'updated_at' => date('Y-m-d H:i:s')
-        ];
+        $updateData = [];
+        if ($age !== null) $updateData['age'] = (int)$age;
+        if ($dob !== null) $updateData['dob'] = $dob;
+        if ($contact !== null) $updateData['contact'] = $contact;
+        if ($address !== null) $updateData['address'] = $address;
+        $updateData['updated_at'] = date('Y-m-d H:i:s');
+        $updateData['user_id'] = $userId;
+        $updateData['email'] = $email;
+        $updateData['fullname'] = $fullname;
 
-        // Remove null values
-        $updateData = array_filter($updateData, function($value) {
-            return $value !== null;
-        });
-
-        // MongoDB is required
-        $db = getMongoConnection();
-        if ($db === null) {
-            http_response_code(500);
-            die(json_encode(['success' => false, 'message' => 'MongoDB connection failed. Profile storage unavailable.']));
-        }
-        $profileCollection = $db->selectCollection('profiles');
-        $result = $profileCollection->updateOne(
+        // Update with upsert
+        $bulk = new MongoDB\Driver\BulkWrite();
+        $bulk->update(
             ['email' => $email],
             ['$set' => $updateData],
             ['upsert' => true]
         );
+
+        $result = $manager->executeBulkWrite(MONGO_DB . '.profiles', $bulk);
 
         http_response_code(200);
         echo json_encode([

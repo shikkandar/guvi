@@ -41,6 +41,27 @@ try {
     }
     echo "   ✓ Users table created/verified\n";
 
+    // Create profiles table
+    $profilesTable = "CREATE TABLE IF NOT EXISTS profiles (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        age INT,
+        dob DATE,
+        contact VARCHAR(20),
+        address TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        UNIQUE KEY unique_email (email),
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        INDEX idx_email (email)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+
+    if (!$conn->query($profilesTable)) {
+        throw new Exception("Profiles table creation failed: " . $conn->error);
+    }
+    echo "   ✓ Profiles table created/verified\n";
+
     $conn->close();
 
     // Step 2: Verify MongoDB
