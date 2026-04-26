@@ -40,9 +40,11 @@ try {
 
 function verifySession($token) {
     $redis = getRedisConnection();
+    if ($redis === null) {
+        return false;
+    }
     $sessionJson = $redis->get('session_' . $token);
     $redis->close();
-
     if ($sessionJson) {
         return json_decode($sessionJson, true);
     }
@@ -54,11 +56,14 @@ function handleFetch($sessionData) {
         $userId = $sessionData['user_id'];
         $email = $sessionData['email'];
 
-        // Get MongoDB connection
+        // MongoDB is required
         $db = getMongoConnection();
-        $profileCollection = $db->selectCollection('profiles');
+        if ($db === null) {
+            http_response_code(500);
+            die(json_encode(['success' => false, 'message' => 'MongoDB connection failed. Profile storage unavailable.']));
+        }
 
-        // Find profile by user email
+        $profileCollection = $db->selectCollection('profiles');
         $profile = $profileCollection->findOne(['email' => $email]);
 
         if ($profile) {
@@ -72,20 +77,21 @@ function handleFetch($sessionData) {
                     'address' => $profile['address'] ?? ''
                 ]
             ]);
-        } else {
-            // No profile exists yet, return empty data
-            http_response_code(200);
-            echo json_encode([
-                'success' => false,
-                'message' => 'No profile data found',
-                'data' => [
-                    'age' => '',
-                    'dob' => '',
-                    'contact' => '',
-                    'address' => ''
-                ]
-            ]);
+            return;
         }
+
+        // No profile exists yet, return empty data
+        http_response_code(200);
+        echo json_encode([
+            'success' => false,
+            'message' => 'No profile data found',
+            'data' => [
+                'age' => '',
+                'dob' => '',
+                'contact' => '',
+                'address' => ''
+            ]
+        ]);
     } catch (Exception $e) {
         throw new Exception('Fetch failed: ' . $e->getMessage());
     }
@@ -131,11 +137,13 @@ function handleUpdate($postData, $sessionData) {
             return $value !== null;
         });
 
-        // Get MongoDB connection
+        // MongoDB is required
         $db = getMongoConnection();
+        if ($db === null) {
+            http_response_code(500);
+            die(json_encode(['success' => false, 'message' => 'MongoDB connection failed. Profile storage unavailable.']));
+        }
         $profileCollection = $db->selectCollection('profiles');
-
-        // Update or insert profile using upsert
         $result = $profileCollection->updateOne(
             ['email' => $email],
             ['$set' => $updateData],

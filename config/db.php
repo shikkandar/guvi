@@ -46,20 +46,30 @@ function getMysqlConnection() {
 // Function to get Redis connection
 function getRedisConnection() {
     try {
+        if (!class_exists('Redis')) {
+            throw new Exception('Redis extension not loaded');
+        }
         $redis = new Redis();
         $redis->connect(REDIS_HOST, REDIS_PORT);
         return $redis;
     } catch (Exception $e) {
-        http_response_code(500);
-        die(json_encode(['success' => false, 'message' => 'Redis connection error']));
+        // Redis not available
+        return null;
     }
 }
 
 // Function to get MongoDB connection
 function getMongoConnection() {
-    require_once __DIR__ . '/../vendor/autoload.php';
-    $client = new MongoDB\Client(MONGO_URI);
-    return $client->selectDatabase(MONGO_DB);
+    try {
+        require_once __DIR__ . '/../vendor/autoload.php';
+        if (!class_exists('MongoDB\Driver\Manager')) {
+            return null;
+        }
+        $client = new MongoDB\Client(MONGO_URI);
+        return $client->selectDatabase(MONGO_DB);
+    } catch (Exception $e) {
+        return null;
+    }
 }
 
 // Redis is required

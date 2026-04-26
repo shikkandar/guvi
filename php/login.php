@@ -63,6 +63,10 @@ try {
 
     // Store session in Redis
     $redis = getRedisConnection();
+    if ($redis === null) {
+        http_response_code(500);
+        die(json_encode(['success' => false, 'message' => 'Redis connection failed. Session storage unavailable.']));
+    }
     $redis->setex('session_' . $sessionToken, 86400, json_encode($sessionData)); // 24 hour expiry
     $redis->close();
 
@@ -92,6 +96,10 @@ function handleLogout() {
 
     try {
         $redis = getRedisConnection();
+        if ($redis === null) {
+            http_response_code(500);
+            die(json_encode(['success' => false, 'message' => 'Redis connection failed. Logout unavailable.']));
+        }
         $redis->del('session_' . $sessionToken);
         $redis->close();
 
@@ -103,4 +111,5 @@ function handleLogout() {
         error_log('Logout error: ' . $e->getMessage());
     }
 }
+
 ?>
