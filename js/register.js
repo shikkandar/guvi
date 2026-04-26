@@ -46,9 +46,12 @@ $(document).ready(function() {
                 if (response.success) {
                     showAlert(response.message, 'success');
                     $form[0].reset();
-                    // Redirect to login after 2 seconds
+                    // Show page loader and redirect to login after 2 seconds
                     setTimeout(function() {
-                        window.location.href = 'login.html';
+                        $('#pageLoader').addClass('show');
+                        setTimeout(function() {
+                            window.location.href = 'login.html';
+                        }, 500);
                     }, 2000);
                 } else {
                     showAlert(response.message, 'danger');

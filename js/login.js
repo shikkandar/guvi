@@ -41,9 +41,12 @@ $(document).ready(function() {
                     showAlert(response.message, 'success');
                     $form[0].reset();
 
-                    // Redirect to profile after 1 second
+                    // Show page loader and redirect to profile after 1 second
                     setTimeout(function() {
-                        window.location.href = 'profile.html';
+                        $('#pageLoader').addClass('show');
+                        setTimeout(function() {
+                            window.location.href = 'profile.html';
+                        }, 500);
                     }, 1000);
                 } else {
                     showAlert(response.message, 'danger');

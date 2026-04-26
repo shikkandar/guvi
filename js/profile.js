@@ -49,7 +49,10 @@ $(document).ready(function() {
                     localStorage.removeItem('sessionToken');
                     localStorage.removeItem('userEmail');
                     localStorage.removeItem('userName');
-                    window.location.href = 'login.html';
+                    $('#pageLoader').addClass('show');
+                    setTimeout(function() {
+                        window.location.href = 'login.html';
+                    }, 500);
                     return;
                 }
                 try {
@@ -84,8 +87,11 @@ $(document).ready(function() {
                 localStorage.removeItem('userEmail');
                 localStorage.removeItem('userName');
 
-                // Redirect to login
-                window.location.href = 'login.html';
+                // Show page loader and redirect to login
+                $('#pageLoader').addClass('show');
+                setTimeout(function() {
+                    window.location.href = 'login.html';
+                }, 500);
             },
             error: function(xhr, status, error) {
                 try {
@@ -98,7 +104,10 @@ $(document).ready(function() {
                 localStorage.removeItem('sessionToken');
                 localStorage.removeItem('userEmail');
                 localStorage.removeItem('userName');
-                window.location.href = 'login.html';
+                $('#pageLoader').addClass('show');
+                setTimeout(function() {
+                    window.location.href = 'login.html';
+                }, 500);
             }
         });
     });
@@ -109,7 +118,10 @@ $(document).ready(function() {
         const userName = localStorage.getItem('userName');
 
         if (!sessionToken || !userEmail) {
-            window.location.href = 'login.html';
+            $('#pageLoader').addClass('show');
+            setTimeout(function() {
+                window.location.href = 'login.html';
+            }, 500);
             return;
         }
 
@@ -142,7 +154,10 @@ $(document).ready(function() {
                     localStorage.removeItem('sessionToken');
                     localStorage.removeItem('userEmail');
                     localStorage.removeItem('userName');
-                    window.location.href = 'login.html';
+                    $('#pageLoader').addClass('show');
+                    setTimeout(function() {
+                        window.location.href = 'login.html';
+                    }, 500);
                     return;
                 }
                 try {
@@ -158,7 +173,10 @@ $(document).ready(function() {
     function checkIfLoggedIn() {
         const token = localStorage.getItem('sessionToken');
         if (!token) {
-            window.location.href = 'login.html';
+            $('#pageLoader').addClass('show');
+            setTimeout(function() {
+                window.location.href = 'login.html';
+            }, 500);
         }
     }
 
