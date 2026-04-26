@@ -34,7 +34,11 @@ try {
     }
 } catch (Exception $e) {
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Operation failed. Please try again.']);
+    $message = 'Operation failed. Please try again.';
+    if (stripos($e->getMessage(), 'AuthenticationException') !== false || stripos($e->getMessage(), 'bad auth') !== false) {
+        $message = 'MongoDB authentication failed. Check MONGO_URI credentials.';
+    }
+    echo json_encode(['success' => false, 'message' => $message]);
     error_log('Profile error: ' . $e->getMessage());
 }
 

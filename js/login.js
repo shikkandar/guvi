@@ -2,6 +2,8 @@ $(document).ready(function() {
     const $form = $('#loginForm');
     const $alertMessage = $('#alertMessage');
     const $alertText = $('#alertText');
+    const $submitButton = $form.find('button[type="submit"]');
+    const defaultButtonHtml = $submitButton.html();
 
     // Check if already logged in
     checkIfLoggedIn();
@@ -17,6 +19,8 @@ $(document).ready(function() {
             showAlert('Email and password are required', 'danger');
             return;
         }
+
+        setSubmittingState(true, 'Logging in...');
 
         // Send AJAX request
         $.ajax({
@@ -53,6 +57,9 @@ $(document).ready(function() {
                     showAlert('An error occurred. Please try again.', 'danger');
                 }
                 console.error('Error:', error);
+            },
+            complete: function() {
+                setSubmittingState(false);
             }
         });
     });
@@ -69,5 +76,19 @@ $(document).ready(function() {
         $alertText.text(message);
         $alertMessage.removeClass('alert-success alert-danger alert-info').addClass('alert-' + type);
         $alertMessage.removeClass('hide').addClass('show');
+    }
+
+    function setSubmittingState(isSubmitting, loadingText = 'Processing...') {
+        $submitButton.prop('disabled', isSubmitting);
+
+        if (isSubmitting) {
+            $submitButton.html(
+                '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>' +
+                loadingText
+            );
+            return;
+        }
+
+        $submitButton.html(defaultButtonHtml);
     }
 });
