@@ -8,7 +8,7 @@ try {
     // Step 1: Create MySQL Database
     echo "1. Setting up MySQL Database...\n";
 
-    $conn = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD);
+    $conn = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, null, MYSQL_PORT);
     if ($conn->connect_error) {
         throw new Exception("MySQL Connection failed: " . $conn->connect_error);
     }
@@ -101,14 +101,13 @@ try {
     echo "\n3. Checking Redis Connection...\n";
     if (USE_REDIS) {
         try {
-            $redis = new Redis();
-            $redis->connect(REDIS_HOST, REDIS_PORT);
+            $redis = createRedisConnection();
             $redis->ping();
             echo "   ✓ Redis is running\n";
             $redis->close();
         } catch (Exception $e) {
             echo "   ⚠ Warning: Redis not available - Using file-based sessions\n";
-            echo "   Make sure Redis is running: brew services start redis\n";
+            echo "   Redis error: " . $e->getMessage() . "\n";
         }
     } else {
         echo "   ⚠ Redis PHP extension not installed - Using file-based sessions\n";
@@ -129,7 +128,7 @@ try {
     echo "\nYou can now:\n";
     echo "1. Start MySQL (if not running): brew services start mysql\n";
     echo "2. Start MongoDB: brew services start mongodb-community\n";
-    echo "3. Start Redis: brew services start redis\n";
+    echo "3. Verify Redis credentials in .env if using a hosted Redis service\n";
     echo "4. Navigate to: http://localhost/guvi (after setting up web server)\n";
 
 } catch (Exception $e) {

@@ -1,6 +1,7 @@
 #!/bin/bash
+set -e
 
-cd /Users/flowkiqinc/guvi
+cd "$(dirname "$0")"
 
 echo ""
 echo "╔════════════════════════════════════════════════════════════╗"
@@ -9,26 +10,11 @@ echo "║           Checking All Connections...                      ║"
 echo "╚════════════════════════════════════════════════════════════╝"
 echo ""
 
-# Check connections
-php check-connections.php
-
-# Extract result
-RESULT=$(php check-connections.php 2>&1 | grep -c "SOME CONNECTIONS FAILED")
-
+CHECK_OUTPUT=$(php check-connections.php 2>&1)
+echo "$CHECK_OUTPUT"
 echo ""
 
-if [ $RESULT -eq 0 ]; then
-    echo "╔════════════════════════════════════════════════════════════╗"
-    echo "║  ✅ ALL CONNECTIONS OK - Starting Server...               ║"
-    echo "╚════════════════════════════════════════════════════════════╝"
-    echo ""
-    echo "📱 Application URL: http://localhost:8000"
-    echo "📂 Project Path:    /Users/flowkiqinc/guvi"
-    echo ""
-    echo "Press Ctrl+C to stop the server"
-    echo ""
-    php -S localhost:8000
-else
+if echo "$CHECK_OUTPUT" | grep -q "SOME CONNECTIONS FAILED"; then
     echo "╔════════════════════════════════════════════════════════════╗"
     echo "║  ❌ CANNOT START - Fix connection issues first             ║"
     echo "╚════════════════════════════════════════════════════════════╝"
@@ -38,3 +24,15 @@ else
     echo ""
     exit 1
 fi
+
+PORT_TO_USE="${PORT:-8000}"
+echo "╔════════════════════════════════════════════════════════════╗"
+echo "║  ✅ ALL CONNECTIONS OK - Starting Server...               ║"
+echo "╚════════════════════════════════════════════════════════════╝"
+echo ""
+echo "📱 Application URL: http://0.0.0.0:${PORT_TO_USE}"
+echo "📂 Project Path:    $(pwd)"
+echo ""
+echo "Press Ctrl+C to stop the server"
+echo ""
+exec php -S 0.0.0.0:"${PORT_TO_USE}"

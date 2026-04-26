@@ -12,12 +12,12 @@ $allConnected = true;
 // 1. Check MySQL
 echo "1️⃣  MySQL Connection:\n";
 try {
-    $conn = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB);
+    $conn = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB, MYSQL_PORT);
     if ($conn->connect_error) {
         echo "   ❌ FAILED: " . $conn->connect_error . "\n";
         $allConnected = false;
     } else {
-        echo "   ✅ CONNECTED to " . MYSQL_DB . "@" . MYSQL_HOST . "\n";
+        echo "   ✅ CONNECTED to " . MYSQL_DB . "@" . MYSQL_HOST . ":" . MYSQL_PORT . "\n";
         $conn->close();
     }
 } catch (Exception $e) {
@@ -33,24 +33,23 @@ try {
         echo "   Fix: pecl install redis\n";
         $allConnected = false;
     } else {
-        $redis = new Redis();
-        $redis->connect(REDIS_HOST, REDIS_PORT, 2);
+        $redis = createRedisConnection();
         $ping = $redis->ping();
         if ($ping) {
-            echo "   ✅ CONNECTED to " . REDIS_HOST . ":" . REDIS_PORT . "\n";
+            echo "   ✅ CONNECTED to " . (REDIS_URL !== '' ? REDIS_URL : REDIS_HOST . ':' . REDIS_PORT) . "\n";
             $redis->close();
         }
     }
 } catch (Exception $e) {
     echo "   ❌ FAILED: " . $e->getMessage() . "\n";
-    echo "   Fix: Start Redis with 'brew services start redis'\n";
+    echo "   Fix: Verify the Redis URL or credentials in .env\n";
     $allConnected = false;
 }
 
 // 3. Check MySQL Profiles Table
 echo "\n3️⃣  MySQL Profiles Table:\n";
 try {
-    $conn = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB);
+    $conn = new mysqli(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB, MYSQL_PORT);
     if ($conn->connect_error) {
         echo "   ❌ FAILED: " . $conn->connect_error . "\n";
         $allConnected = false;

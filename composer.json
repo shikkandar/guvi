@@ -3,8 +3,10 @@
     "description": "GUVI Internship - Authentication and Profile Management System",
     "type": "project",
     "require": {
-        "php": ">=7.4",
-        "mongodb/mongodb": "^1.15"
+        "php": "^8.4",
+        "ext-mongodb": "*",
+        "ext-redis": "*",
+        "mongodb/mongodb": "^1.21"
     },
     "require-dev": {},
     "autoload": {
