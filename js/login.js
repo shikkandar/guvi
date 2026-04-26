@@ -8,6 +8,25 @@ $(document).ready(function() {
     // Check if already logged in
     checkIfLoggedIn();
 
+    // Password visibility toggle
+    $('#passwordToggle').on('click', function() {
+        const $passwordInput = $('#password');
+        const $eyeIcon = $(this).find('.eye-icon');
+        const $eyeOffIcon = $(this).find('.eye-off-icon');
+        const type = $passwordInput.attr('type');
+
+        if (type === 'password') {
+            $passwordInput.attr('type', 'text');
+            $eyeIcon.hide();
+            $eyeOffIcon.show();
+        } else {
+            $passwordInput.attr('type', 'password');
+            $eyeIcon.show();
+            $eyeOffIcon.hide();
+        }
+        $(this).toggleClass('active');
+    });
+
     $form.on('submit', function(e) {
         e.preventDefault();
 

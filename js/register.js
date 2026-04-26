@@ -5,6 +5,43 @@ $(document).ready(function() {
     const $submitButton = $form.find('button[type="submit"]');
     const defaultButtonHtml = $submitButton.html();
 
+    // Password visibility toggle
+    $('#passwordToggle').on('click', function() {
+        const $passwordInput = $('#password');
+        const $eyeIcon = $(this).find('.eye-icon');
+        const $eyeOffIcon = $(this).find('.eye-off-icon');
+        const type = $passwordInput.attr('type');
+
+        if (type === 'password') {
+            $passwordInput.attr('type', 'text');
+            $eyeIcon.hide();
+            $eyeOffIcon.show();
+        } else {
+            $passwordInput.attr('type', 'password');
+            $eyeIcon.show();
+            $eyeOffIcon.hide();
+        }
+        $(this).toggleClass('active');
+    });
+
+    $('#confirmPasswordToggle').on('click', function() {
+        const $confirmPasswordInput = $('#confirmPassword');
+        const $eyeIcon = $(this).find('.eye-icon');
+        const $eyeOffIcon = $(this).find('.eye-off-icon');
+        const type = $confirmPasswordInput.attr('type');
+
+        if (type === 'password') {
+            $confirmPasswordInput.attr('type', 'text');
+            $eyeIcon.hide();
+            $eyeOffIcon.show();
+        } else {
+            $confirmPasswordInput.attr('type', 'password');
+            $eyeIcon.show();
+            $eyeOffIcon.hide();
+        }
+        $(this).toggleClass('active');
+    });
+
     $form.on('submit', function(e) {
         e.preventDefault();
 

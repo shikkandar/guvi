@@ -115,7 +115,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .form-label {
     color: #333;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.3rem;
     font-size: 0.95rem;
 }
 
@@ -292,11 +292,54 @@ a:hover {
 /* Better spacing */
 .card-body {
     padding: 2rem;
+    padding-top: 0.5rem;
+}
+
+.card-body .mb-4:first-child {
+    margin-top: 0;
 }
 
 /* SVG Icons */
 svg {
     display: inline-block;
+}
+
+/* Password Input Toggle */
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--secondary-color);
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.password-toggle:hover {
+    color: var(--primary-color);
+}
+
+.password-input-wrapper input {
+    padding-right: 45px;
+}
+
+.password-toggle.active {
+    color: var(--primary-color);
+}
+
+.password-toggle .eye-icon,
+.password-toggle .eye-off-icon {
+    transition: all 0.2s ease;
 }
 
 /* Page Transition Spinner */
