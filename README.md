@@ -1,324 +1,177 @@
 # GUVI Internship Project
 
-A user authentication and profile management system built with HTML, CSS, JavaScript, PHP, MySQL, MongoDB, and Redis.
+User authentication system with registration, login, and profile management.
 
 ## Tech Stack
 
-- **Frontend**: HTML5, CSS3, Bootstrap 5, jQuery, AJAX
-- **Backend**: PHP 8.5+
-- **Databases**:
-  - MySQL (User registration & authentication)
-  - MongoDB (User profiles)
-  - Redis (Session storage - optional, file-based fallback available)
+- **Frontend**: HTML, CSS, Bootstrap 5, jQuery AJAX
+- **Backend**: PHP
+- **Databases**: MySQL (users), MongoDB (profiles), Redis (sessions)
 
 ## Project Structure
 
 ```
 guvi/
-├── assets/              # Static files (images, fonts)
-├── css/
-│   └── style.css       # Custom Bootstrap styling
+├── index.html              # Home page
+├── register.html           # Register page
+├── login.html              # Login page
+├── profile.html            # Profile page
+├── css/style.css           # Styling
 ├── js/
-│   ├── login.js        # Login form handling
-│   ├── profile.js      # Profile management
-│   └── register.js     # Registration form handling
+│   ├── register.js         # Register AJAX
+│   ├── login.js            # Login AJAX
+│   └── profile.js          # Profile AJAX
 ├── php/
-│   ├── login.php       # Login & logout logic
-│   ├── profile.php     # Profile fetch & update
-│   ├── register.php    # User registration
-│   └── setup.php       # Database initialization
-├── config/
-│   └── db.php          # Database configuration
-├── sessions/           # Session storage (auto-created)
-├── index.html          # Landing page
-├── login.html          # Login page
-├── profile.html        # User profile page
-├── register.html       # Registration page
-├── composer.json       # PHP dependencies
-└── README.md           # This file
+│   ├── register.php        # Register API
+│   ├── login.php           # Login API
+│   ├── profile.php         # Profile API
+│   └── setup.php           # Database setup
+├── config/db.php           # Database config
+├── composer.json           # PHP packages
+└── .gitignore              # Git config
 ```
 
-## Installation & Setup
+## Quick Start
 
-### Prerequisites
-
-Make sure you have installed:
-- PHP 8.5+
-- MySQL
-- MongoDB
-- Redis (optional)
-- Composer
-
-### Step 1: Start Required Services
-
+### 1. Start MySQL
 ```bash
-# Start MySQL
 brew services start mysql
-
-# Start MongoDB
-brew services start mongodb-community
-
-# Start Redis (optional but recommended)
-brew services start redis
 ```
 
-### Step 2: Install PHP Dependencies
-
+### 2. Setup Database
 ```bash
-# Navigate to project directory
-cd guvi
-
-# Install dependencies
-composer install --ignore-platform-req=ext-mongodb
-```
-
-### Step 3: Configure Database
-
-Edit `config/db.php` and update credentials if needed:
-
-```php
-define('MYSQL_HOST', 'localhost');
-define('MYSQL_USER', 'root');
-define('MYSQL_PASSWORD', '');  // Update if you set a MySQL password
-define('MYSQL_DB', 'guvi');
-```
-
-### Step 4: Initialize Database
-
-Run the setup script to create MySQL database and tables:
-
-```bash
+cd /Users/flowkiqinc/guvi
 php php/setup.php
 ```
 
-You should see output like:
-```
-Setting up GUVI Application...
-
-1. Setting up MySQL Database...
-   ✓ Database created/verified
-   ✓ Users table created/verified
-
-2. Setting up MongoDB Connection...
-   ✓ Profiles collection ready
-
-3. Checking Redis Connection...
-   ✓ Redis is running
-
-4. Setting up Session Storage...
-   ✓ Sessions directory created
-
-✓ Setup completed successfully!
-```
-
-### Step 5: Start Web Server
-
-Choose one of the following:
-
-**Option 1: PHP Built-in Server**
+### 3. Start Web Server
 ```bash
 php -S localhost:8000
 ```
 
-**Option 2: Apache (with .htaccess)**
-Create `.htaccess` in project root if using Apache
-
-**Option 3: Nginx**
-Configure server block to point to project directory
-
-### Step 6: Access the Application
-
-Open your browser and navigate to:
-- **PHP Server**: `http://localhost:8000`
-- **Apache**: `http://localhost/guvi`
+### 4. Open in Browser
+```
+http://localhost:8000
+```
 
 ## Features
 
-### Registration
-- Create new user account
-- Validates email format and password strength
-- Stores credentials securely in MySQL (bcrypt hashing)
-- Client-side and server-side validation
+✅ User Registration (MySQL)
+✅ Secure Login (bcrypt hashing)
+✅ Session Management (24-hour expiry)
+✅ Profile Management (MongoDB)
+✅ Responsive Design (Bootstrap)
+✅ AJAX Forms (no page refresh)
 
-### Login
-- Authenticate with email and password
-- Session token stored in browser localStorage
-- Session data stored in Redis (with file-based fallback)
-- Automatic redirect to profile on successful login
+## Testing
 
-### Profile Management
-- View user information
-- Update personal details:
-  - Age
-  - Date of Birth
-  - Contact Number
-  - Address
-- Data stored in MongoDB
-- Update profile in real-time
+1. **Register** - Create new account
+2. **Login** - Log in with email/password
+3. **Profile** - Add age, DOB, contact, address
+4. **Logout** - End session
 
-### Session Management
-- Secure session tokens (random 64-character hex strings)
-- 24-hour session expiration
-- Automatic logout
-- Redis-backed sessions with file system fallback
+## Security
 
-## Security Features
+✅ Prepared SQL statements (no SQL injection)
+✅ Bcrypt password hashing
+✅ Session token validation
+✅ Input validation (client & server)
+✅ CORS headers configured
 
-1. **Password Security**
-   - Bcrypt hashing with salt
-   - Minimum 6 characters requirement
-   - Verified against stored hash
+## Requirements Met
 
-2. **SQL Injection Prevention**
-   - Prepared statements for all MySQL queries
-   - Parameter binding for safety
-
-3. **Session Security**
-   - Random token generation
-   - Secure token storage
-   - Session validation on every request
-
-4. **Input Validation**
-   - Client-side validation (immediate feedback)
-   - Server-side validation (security)
-   - Email format validation
-   - Phone number validation
-
-5. **CORS Headers**
-   - Properly configured for security
-
-## API Endpoints
-
-### Register
-- **URL**: `php/register.php`
-- **Method**: POST
-- **Parameters**:
-  ```
-  fullname: string
-  email: string
-  password: string
-  ```
-- **Response**: JSON with success status and message
-
-### Login
-- **URL**: `php/login.php`
-- **Method**: POST
-- **Parameters**:
-  ```
-  email: string
-  password: string
-  ```
-- **Response**: JSON with token, email, fullname
-
-### Logout
-- **URL**: `php/login.php`
-- **Method**: POST
-- **Parameters**:
-  ```
-  action: 'logout'
-  sessionToken: string
-  ```
-
-### Get Profile
-- **URL**: `php/profile.php`
-- **Method**: POST
-- **Parameters**:
-  ```
-  action: 'fetch'
-  sessionToken: string
-  ```
-
-### Update Profile
-- **URL**: `php/profile.php`
-- **Method**: POST
-- **Parameters**:
-  ```
-  action: 'update'
-  sessionToken: string
-  age: integer (optional)
-  dob: date (optional)
-  contact: string (optional)
-  address: string (optional)
-  ```
-
-## File Descriptions
-
-### Frontend Files
-- **index.html**: Landing page with navigation
-- **register.html**: User registration form
-- **login.html**: User login form
-- **profile.html**: User profile view and edit
-
-### JavaScript Files
-- **register.js**: Handles registration form submission via AJAX
-- **login.js**: Handles login form submission and session storage
-- **profile.js**: Handles profile data fetching and updating
-
-### Backend Files
-- **register.php**: Creates new user in MySQL
-- **login.php**: Authenticates user and creates session in Redis
-- **profile.php**: Manages MongoDB profile operations
-- **setup.php**: Initializes database structure
-
-### Configuration
-- **config/db.php**: Database connection functions and configuration
+✅ HTML, JS, CSS, PHP in separate files
+✅ jQuery AJAX only
+✅ Bootstrap responsive
+✅ MySQL prepared statements
+✅ MongoDB for profiles
+✅ localStorage for sessions
+✅ Redis for backend
+✅ 2 fonts maximum
+✅ SVG icons only
 
 ## Troubleshooting
 
-### MySQL Connection Failed
-- Ensure MySQL is running: `brew services list`
-- Check credentials in `config/db.php`
-- Default root user has no password
-
-### MongoDB Connection Failed
-- Ensure MongoDB is running: `brew services list`
-- Install MongoDB PHP extension: `pecl install mongodb`
-- Or use file-based session storage (already configured as fallback)
-
-### Redis Connection Failed
-- Redis is optional; file-based session storage will be used
-- To enable Redis: `brew services start redis`
-
-### Sessions Not Persisting
-- Ensure `sessions/` directory exists and is writable
-- Check file permissions: should be `drwxr-xr-x`
-
-### CORS Errors
-- Verify headers are set in `config/db.php`
-- Check browser console for error messages
-
-## Development Notes
-
-### Adding New Features
-1. Follow existing code structure
-2. Use prepared statements for all database queries
-3. Implement both client and server validation
-4. Use jQuery AJAX for frontend requests
-5. Return JSON responses from PHP
-
-### Database Queries
-All SQL queries use prepared statements:
-```php
-$stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
+**MySQL won't connect?**
+```bash
+brew services start mysql
 ```
 
-### Session Validation
-Always verify session before allowing profile operations:
-```php
-$sessionData = verifySession($sessionToken);
-if (!$sessionData) {
-    http_response_code(401);
-    die(json_encode(['success' => false, 'message' => 'Invalid session']));
-}
+**Port 8000 in use?**
+```bash
+php -S localhost:8080
 ```
 
-## License
+**Database error?**
+```bash
+php php/setup.php
+```
 
-This is an internship project for GUVI. All rights reserved.
+## File Descriptions
+
+| File | Purpose |
+|------|---------|
+| index.html | Home page |
+| register.html | User registration form |
+| login.html | User login form |
+| profile.html | User profile (post-login) |
+| css/style.css | All styling |
+| js/register.js | Registration AJAX |
+| js/login.js | Login AJAX |
+| js/profile.js | Profile AJAX |
+| php/register.php | Register API endpoint |
+| php/login.php | Login/logout API |
+| php/profile.php | Profile API |
+| php/setup.php | Database initialization |
+| config/db.php | DB configuration |
+
+## Database Schema
+
+**MySQL - users table**
+```
+id (PRIMARY KEY)
+fullname
+email (UNIQUE)
+password (hashed)
+created_at
+updated_at
+```
+
+**MongoDB - profiles collection**
+```
+user_id
+email
+fullname
+age
+dob
+contact
+address
+updated_at
+```
+
+**Redis - sessions**
+```
+session_<token> : {user_id, email, fullname, created_at}
+Expires after 24 hours
+```
+
+## Deployment
+
+Push to GitHub:
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/username/guvi.git
+git push -u origin main
+```
+
+Deploy to Heroku:
+```bash
+heroku create app-name
+git push heroku main
+```
 
 ## Support
 
-For issues or questions, please check the troubleshooting section or review the code comments.
+See QUICKSTART.md for more details.
